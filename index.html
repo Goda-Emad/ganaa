@@ -1,308 +1,384 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" class="no-js">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
   <title>Ganna Emad 🎀</title>
+  <meta name="description" content="صفحة صغيرة صُنعت بكل حب لجنّة عماد — لأن بعض الناس يستحقون أكثر من مجرد كلمة." />
+  <meta name="theme-color" content="#fff7f9" />
+  <meta name="color-scheme" content="light" />
+
+  <!-- مشاركة الرابط -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Ganna Emad 🎀" />
+  <meta property="og:description" content="إليكِ وحدكِ… صفحة صغيرة صُنعت بكل حب." />
+  <meta property="og:locale" content="ar_AR" />
+
+  <!-- أيقونة الصفحة (SVG مدمج — بدون ملف خارجي) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%80%3C/text%3E%3C/svg%3E" />
+
+  <!-- الخطوط: preconnect + swap لتقليل تأخير العرض -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet" />
+
+  <!-- ملف الأنماط الأساسي (يُحمَّل بشكل غير معطِّل) -->
   <link rel="stylesheet" href="style.css" />
+
+  <!-- نُخبر الصفحة بوجود JS قبل الرسم، لتفادي وميض عناصر الظهور -->
+  <script>document.documentElement.classList.replace('no-js','js');</script>
 </head>
+
 <body>
 
-  <div class="hearts-bg" aria-hidden="true" id="heartsContainer"></div>
+  <!-- رابط تجاوز للوصول السريع بلوحة المفاتيح -->
+  <a class="skip-link" href="#message">تجاوز إلى المحتوى</a>
 
-  <!-- ══════════════════════════════════════
-       HERO
-  ══════════════════════════════════════ -->
-  <section class="hero" id="hero">
-    <div class="hero__inner">
+  <!-- شريط تقدّم التمرير -->
+  <div class="scroll-progress" role="presentation" aria-hidden="true">
+    <span class="scroll-progress__bar" id="scrollBar"></span>
+  </div>
 
-      <!-- EDIT: eyebrow -->
-      <p class="hero__eyebrow">✦ &nbsp; إليكِ وحدكِ &nbsp; ✦</p>
+  <!-- خلفية القلوب المتطايرة (Canvas = أداء أعلى بكثير من مئات العناصر) -->
+  <canvas class="hearts-bg" id="heartsCanvas" aria-hidden="true"></canvas>
 
-      <!-- EDIT: main name -->
-      <h1 class="hero__name">Ganna Emad</h1>
-      <div class="hero__bow">🎀</div>
+  <main id="main">
 
-      <!-- EDIT: nickname -->
-      <p class="hero__nickname">أم لارا... أو كما أعرفها أنا.</p>
+    <!-- ══════════════════════════════════════
+         HERO
+    ══════════════════════════════════════ -->
+    <section class="hero" id="hero">
+      <div class="hero__inner">
 
-      <!-- EDIT: teaser -->
-      <p class="hero__teaser">
-        صنعتُ هذا لكِ.<br/>
-        <span class="hero__teaser--light">لأن بعض الناس يستحقون أكثر من مجرد كلمة.</span>
-      </p>
+        <!-- EDIT: eyebrow -->
+        <p class="hero__eyebrow">✦ &nbsp; إليكِ وحدكِ &nbsp; ✦</p>
 
-      <a href="#message" class="hero__btn" id="discoverBtn">
-        <span>اكتشفي</span>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-      </a>
+        <!-- EDIT: main name -->
+        <h1 class="hero__name">Ganna Emad</h1>
+        <div class="hero__bow" aria-hidden="true">🎀</div>
 
-    </div>
-    <div class="sparkle-field" aria-hidden="true" id="sparkleField"></div>
-    <div class="hero__vignette" aria-hidden="true"></div>
-  </section>
+        <!-- EDIT: nickname -->
+        <p class="hero__nickname">أم لارا... أو كما أعرفها أنا.</p>
 
-
-  <!-- ══════════════════════════════════════
-       SECTION 2 — MESSAGE
-  ══════════════════════════════════════ -->
-  <section class="message reveal" id="message">
-    <div class="container container--narrow">
-
-      <p class="message__label">رسالة</p>
-
-      <!-- EDIT: message heading -->
-      <h2 class="message__heading">لماذا هذا كله؟</h2>
-
-      <!-- EDIT: message body — شاعري وصادق -->
-      <div class="message__prose">
-        <p>
-          لأن بعض الناس يمرّون في حياتنا ويتركون أثراً لا يُمحى.
-          لا يفعلون ذلك بصوت عالٍ، ولا بكلام كثير —
-          بل بروحهم التي تملأ المكان من غير أن يقصدوا.
+        <!-- EDIT: teaser -->
+        <p class="hero__teaser">
+          صنعتُ هذا لكِ.<br />
+          <span class="hero__teaser--light">لأن بعض الناس يستحقون أكثر من مجرد كلمة.</span>
         </p>
-        <p>
-          أنتِ من هؤلاء.
-        </p>
-        <p>
-          وقبل أن يأتي عيد ميلادك بوقت،
-          أردتُ أن أقول: <em>أنا ممتنّ لوجودكِ.</em>
-        </p>
+
+        <a href="#message" class="hero__btn" id="discoverBtn">
+          <span>اكتشفي</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 5v14M5 12l7 7 7-7" />
+          </svg>
+        </a>
+
       </div>
 
-    </div>
-  </section>
+      <div class="sparkle-field" id="sparkleField" aria-hidden="true"></div>
+      <div class="hero__vignette" aria-hidden="true"></div>
+    </section>
 
 
-  <!-- ══════════════════════════════════════
-       SECTION 3 — ABOUT GANNA
-  ══════════════════════════════════════ -->
-  <section class="about reveal" id="about">
-    <div class="container">
+    <!-- ══════════════════════════════════════
+         SECTION 2 — MESSAGE
+    ══════════════════════════════════════ -->
+    <section class="message reveal" id="message">
+      <div class="container container--narrow">
 
-      <p class="message__label">ما يميّزكِ</p>
-      <!-- EDIT: section title -->
-      <h2 class="section-title">أشياء تسكن في التفاصيل</h2>
-      <div class="title-ornament">
-        <span></span><span class="ornament-diamond">◆</span><span></span>
-      </div>
+        <p class="section-label">رسالة</p>
 
-      <div class="cards-grid">
+        <!-- EDIT: message heading -->
+        <h2 class="message__heading">لماذا هذا كله؟</h2>
 
-        <!-- EDIT: Card 1 -->
-        <article class="card">
-          <div class="card__glow"></div>
-          <div class="card__icon">🌸</div>
-          <h3 class="card__title">روحكِ</h3>
-          <p class="card__text">
-            بعض الناس تشعر بدفئهم من أول لقاء.
-            روحكِ من هذا النوع النادر.
+        <!-- EDIT: message body — شاعري وصادق -->
+        <div class="message__prose">
+          <p>
+            لأن بعض الناس يمرّون في حياتنا ويتركون أثراً لا يُمحى.
+            لا يفعلون ذلك بصوت عالٍ، ولا بكلام كثير —
+            بل بروحهم التي تملأ المكان من غير أن يقصدوا.
           </p>
-        </article>
-
-        <!-- EDIT: Card 2 -->
-        <article class="card">
-          <div class="card__glow"></div>
-          <div class="card__icon">🩷</div>
-          <h3 class="card__title">طريقتكِ</h3>
-          <p class="card__text">
-            في الكلام، في الضحكة، في كل تفصيلة صغيرة —
-            في كل شيء بصمتكِ.
+          <p class="message__prose--focus">أنتِ من هؤلاء.</p>
+          <p>
+            وقبل أن يأتي عيد ميلادك بوقت،
+            أردتُ أن أقول: <em>أنا ممتنّ لوجودكِ.</em>
           </p>
-        </article>
-
-        <!-- EDIT: Card 3 -->
-        <article class="card">
-          <div class="card__glow"></div>
-          <div class="card__icon">✨</div>
-          <h3 class="card__title">جمالكِ</h3>
-          <p class="card__text">
-            الجمال الذي لا يحتاج إلى إعلان،
-            لأنه يتكلم من تلقاء نفسه.
-          </p>
-        </article>
-
-        <!-- EDIT: Card 4 -->
-        <article class="card">
-          <div class="card__glow"></div>
-          <div class="card__icon">🎀</div>
-          <h3 class="card__title">إنتِ</h3>
-          <p class="card__text">
-            لا أحتاج إلى وصف أكثر من هذا.
-            إنتِ ببساطة كافية.
-          </p>
-        </article>
+        </div>
 
       </div>
-    </div>
-  </section>
+    </section>
 
 
-  <!-- ══════════════════════════════════════
-       SECTION 4 — POETRY QUOTE
-  ══════════════════════════════════════ -->
-  <section class="poetry reveal" id="poetry">
-    <div class="container container--narrow">
-      <div class="poetry__card">
-        <div class="poetry__mark">"</div>
-        <!-- EDIT: شعر أو كلام جميل خاص بيكم -->
-        <p class="poetry__text">
-          في زمن يتسارع ويُنسي،<br/>
-          بعض الوجوه تبقى.<br/>
-          وجهكِ من تلك الوجوه.
-        </p>
-        <div class="poetry__mark poetry__mark--close">"</div>
-        <!-- EDIT: مصدر الاقتباس أو اكتب كلمة "منّي" -->
-        <p class="poetry__source">— منّي، إليكِ</p>
+    <!-- ══════════════════════════════════════
+         SECTION 3 — ABOUT GANNA
+    ══════════════════════════════════════ -->
+    <section class="about reveal" id="about">
+      <div class="container">
+
+        <p class="section-label">ما يميّزكِ</p>
+        <!-- EDIT: section title -->
+        <h2 class="section-title">أشياء تسكن في التفاصيل</h2>
+        <div class="title-ornament" aria-hidden="true">
+          <span></span><span class="ornament-diamond">◆</span><span></span>
+        </div>
+
+        <div class="cards-grid">
+
+          <!-- EDIT: Card 1 -->
+          <article class="card">
+            <div class="card__glow" aria-hidden="true"></div>
+            <div class="card__icon" aria-hidden="true">🌸</div>
+            <h3 class="card__title">روحكِ</h3>
+            <p class="card__text">
+              بعض الناس تشعر بدفئهم من أول لقاء.
+              روحكِ من هذا النوع النادر.
+            </p>
+          </article>
+
+          <!-- EDIT: Card 2 -->
+          <article class="card">
+            <div class="card__glow" aria-hidden="true"></div>
+            <div class="card__icon" aria-hidden="true">🩷</div>
+            <h3 class="card__title">طريقتكِ</h3>
+            <p class="card__text">
+              في الكلام، في الضحكة، في كل تفصيلة صغيرة —
+              في كل شيء بصمتكِ.
+            </p>
+          </article>
+
+          <!-- EDIT: Card 3 -->
+          <article class="card">
+            <div class="card__glow" aria-hidden="true"></div>
+            <div class="card__icon" aria-hidden="true">✨</div>
+            <h3 class="card__title">جمالكِ</h3>
+            <p class="card__text">
+              الجمال الذي لا يحتاج إلى إعلان،
+              لأنه يتكلم من تلقاء نفسه.
+            </p>
+          </article>
+
+          <!-- EDIT: Card 4 -->
+          <article class="card">
+            <div class="card__glow" aria-hidden="true"></div>
+            <div class="card__icon" aria-hidden="true">🎀</div>
+            <h3 class="card__title">إنتِ</h3>
+            <p class="card__text">
+              لا أحتاج إلى وصف أكثر من هذا.
+              إنتِ ببساطة كافية.
+            </p>
+          </article>
+
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
 
-  <!-- ══════════════════════════════════════
-       SECTION 5 — OM LARA
-  ══════════════════════════════════════ -->
-  <section class="om-lara reveal" id="omLara">
-    <div class="container container--narrow">
+    <!-- ══════════════════════════════════════
+         SECTION 4 — POETRY QUOTE
+    ══════════════════════════════════════ -->
+    <section class="poetry reveal" id="poetry">
+      <div class="container container--narrow">
+        <figure class="poetry__card">
+          <div class="poetry__mark" aria-hidden="true">&rdquo;</div>
 
-      <p class="message__label">لقب خاص</p>
-      <div class="om-lara__name">أم لارا 😂❤️</div>
-      <p class="om-lara__text">اسم بيضحّك وبيدفّي في نفس الوقت.</p>
+          <!-- EDIT: شعر أو كلام جميل خاص بيكم -->
+          <blockquote class="poetry__text">
+            في زمن يتسارع ويُنسي،<br />
+            بعض الوجوه تبقى.<br />
+            وجهكِ من تلك الوجوه.
+          </blockquote>
 
-      <div class="beating-heart" aria-hidden="true">❤️</div>
+          <div class="poetry__mark poetry__mark--close" aria-hidden="true">&rdquo;</div>
 
-      <!--
-        ══════════════════════════════════════
-        EDIT: اكتب هنا قصتكم أو نكتتكم الخاصة
-        ══════════════════════════════════════
-      -->
-      <div class="om-lara__story">
-        <p class="om-lara__story-text">
-          <!-- اكتب هنا -->
-          &nbsp;
-        </p>
+          <!-- EDIT: مصدر الاقتباس أو اكتب كلمة "منّي" -->
+          <figcaption class="poetry__source">— منّي، إليكِ</figcaption>
+        </figure>
       </div>
-
-    </div>
-  </section>
+    </section>
 
 
-  <!-- ══════════════════════════════════════
-       SECTION 6 — MEMORIES
-  ══════════════════════════════════════ -->
-  <section class="memories reveal" id="memories">
-    <div class="container">
+    <!-- ══════════════════════════════════════
+         SECTION 5 — OM LARA
+    ══════════════════════════════════════ -->
+    <section class="om-lara reveal" id="omLara">
+      <div class="container container--narrow">
 
-      <p class="message__label">لحظات</p>
-      <!-- EDIT: heading -->
-      <h2 class="section-title">ذاكرة تُكتب ببطء</h2>
-      <div class="title-ornament">
-        <span></span><span class="ornament-diamond">◆</span><span></span>
-      </div>
+        <p class="section-label">لقب خاص</p>
+        <p class="om-lara__name">أم لارا 😂❤️</p>
+        <p class="om-lara__text">اسم بيضحّك وبيدفّي في نفس الوقت.</p>
 
-      <!-- EDIT: desc -->
-      <p class="memories__desc">
-        بعض اللحظات تستحق أن تُحفظ.
-        هذه صفحتها.
-      </p>
-
-      <div class="memories-grid">
+        <div class="beating-heart" aria-hidden="true">❤️</div>
 
         <!--
-          EDIT MEMORY #01
+          ══════════════════════════════════════
+          EDIT: اكتب هنا قصتكم أو نكتتكم الخاصة
+          ══════════════════════════════════════
         -->
-        <div class="memory-card">
-          <span class="memory-card__num">I</span>
-          <p class="memory-card__text">قريباً...</p>
-          <!-- EDIT: اكتب الذكرى الأولى هنا -->
-        </div>
-
-        <!--
-          EDIT MEMORY #02
-        -->
-        <div class="memory-card">
-          <span class="memory-card__num">II</span>
-          <p class="memory-card__text">قريباً...</p>
-          <!-- EDIT: اكتب الذكرى الثانية هنا -->
-        </div>
-
-        <!--
-          EDIT MEMORY #03
-        -->
-        <div class="memory-card">
-          <span class="memory-card__num">III</span>
-          <p class="memory-card__text">قريباً...</p>
-          <!-- EDIT: اكتب الذكرى الثالثة هنا -->
+        <div class="om-lara__story">
+          <p class="om-lara__story-text">
+            <!-- اكتب هنا -->
+            &nbsp;
+          </p>
         </div>
 
       </div>
-    </div>
-  </section>
+    </section>
 
 
-  <!-- ══════════════════════════════════════
-       SECTION 7 — TEASER
-  ══════════════════════════════════════ -->
-  <section class="teaser reveal" id="teaser">
-    <div class="container container--narrow">
+    <!-- ══════════════════════════════════════
+         SECTION 6 — MEMORIES
+    ══════════════════════════════════════ -->
+    <section class="memories reveal" id="memories">
+      <div class="container">
 
-      <!-- EDIT: teaser heading -->
-      <h2 class="teaser__heading">ولا يزال الوقت مبكراً...</h2>
-
-      <!-- EDIT: teaser lines -->
-      <p class="teaser__line">عيد ميلادكِ لم يأتِ بعد.</p>
-      <p class="teaser__line teaser__line--accent">لكنني أردتُ أن تعرفي من الآن: <em>أنتِ تستحقين.</em></p>
-      <p class="teaser__line teaser__line--light">والمفاجأة الحقيقية... لها وقتها.</p>
-
-    </div>
-  </section>
-
-
-  <!-- ══════════════════════════════════════
-       FINALE
-  ══════════════════════════════════════ -->
-  <section class="finale reveal" id="finale">
-    <div class="container container--narrow">
-      <div class="finale__card">
-        <div class="finale__petals" aria-hidden="true">🌸</div>
-
-        <!-- EDIT: main wish -->
-        <p class="finale__main">كل سنة وإنتِ نور يا جَنّة 🎀</p>
-
-        <!-- EDIT: secondary lines -->
-        <p class="finale__secondary">
-          أتمنى أن تأتي الأيام القادمة<br/>
-          بكل ما تستحقينه من جمال وهدوء وفرح.
-        </p>
-
-        <p class="finale__secondary">
-          خليكي دايمًا بنفس روحكِ الحلوة —<br/>
-          العالم أجمل بيكِ.
-        </p>
-
-        <div class="finale__divider">
-          <span></span>
-          <span class="finale__divider-heart">❤️</span>
-          <span></span>
+        <p class="section-label">لحظات</p>
+        <!-- EDIT: heading -->
+        <h2 class="section-title">ذاكرة تُكتب ببطء</h2>
+        <div class="title-ornament" aria-hidden="true">
+          <span></span><span class="ornament-diamond">◆</span><span></span>
         </div>
 
-        <!-- EDIT: sign-off -->
-        <p class="finale__from">منّي ليكِ</p>
+        <!-- EDIT: desc -->
+        <p class="memories__desc">
+          بعض اللحظات تستحق أن تُحفظ.
+          هذه صفحتها.
+        </p>
+
+        <div class="memories-grid">
+
+          <!-- EDIT MEMORY #01 -->
+          <article class="memory-card">
+            <span class="memory-card__num" aria-hidden="true">I</span>
+            <p class="memory-card__text">قريباً...</p>
+            <!-- EDIT: اكتب الذكرى الأولى هنا -->
+          </article>
+
+          <!-- EDIT MEMORY #02 -->
+          <article class="memory-card">
+            <span class="memory-card__num" aria-hidden="true">II</span>
+            <p class="memory-card__text">قريباً...</p>
+            <!-- EDIT: اكتب الذكرى الثانية هنا -->
+          </article>
+
+          <!-- EDIT MEMORY #03 -->
+          <article class="memory-card">
+            <span class="memory-card__num" aria-hidden="true">III</span>
+            <p class="memory-card__text">قريباً...</p>
+            <!-- EDIT: اكتب الذكرى الثالثة هنا -->
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════
+         SECTION 7 — TEASER + COUNTDOWN
+    ══════════════════════════════════════ -->
+    <section class="teaser reveal" id="teaser">
+      <div class="container container--narrow">
+
+        <!-- EDIT: teaser heading -->
+        <h2 class="teaser__heading">ولا يزال الوقت مبكراً...</h2>
+
+        <!-- EDIT: teaser lines -->
+        <p class="teaser__line">عيد ميلادكِ لم يأتِ بعد.</p>
+        <p class="teaser__line teaser__line--accent">
+          لكنني أردتُ أن تعرفي من الآن: <em>أنتِ تستحقين.</em>
+        </p>
+
+        <!--
+          العدّاد التنازلي — عدّل التاريخ فقط من ملف script.js
+          (المتغيّر BIRTHDAY في أول الملف)
+        -->
+        <div class="countdown" id="countdown" hidden>
+          <div class="countdown__unit">
+            <span class="countdown__value" data-unit="days">—</span>
+            <span class="countdown__label">يوم</span>
+          </div>
+          <div class="countdown__sep" aria-hidden="true">:</div>
+          <div class="countdown__unit">
+            <span class="countdown__value" data-unit="hours">—</span>
+            <span class="countdown__label">ساعة</span>
+          </div>
+          <div class="countdown__sep" aria-hidden="true">:</div>
+          <div class="countdown__unit">
+            <span class="countdown__value" data-unit="minutes">—</span>
+            <span class="countdown__label">دقيقة</span>
+          </div>
+          <div class="countdown__sep" aria-hidden="true">:</div>
+          <div class="countdown__unit">
+            <span class="countdown__value" data-unit="seconds">—</span>
+            <span class="countdown__label">ثانية</span>
+          </div>
+          <p class="countdown__note" id="countdownNote"></p>
+        </div>
+
+        <p class="teaser__line teaser__line--light">والمفاجأة الحقيقية... لها وقتها.</p>
 
       </div>
-    </div>
-  </section>
+    </section>
 
+
+    <!-- ══════════════════════════════════════
+         FINALE
+    ══════════════════════════════════════ -->
+    <section class="finale reveal" id="finale">
+      <div class="container container--narrow">
+        <div class="finale__card">
+          <div class="finale__petals" aria-hidden="true">🌸</div>
+
+          <!-- EDIT: main wish -->
+          <p class="finale__main">كل سنة وإنتِ نور يا جَنّة 🎀</p>
+
+          <!-- EDIT: secondary lines -->
+          <p class="finale__secondary">
+            أتمنى أن تأتي الأيام القادمة<br />
+            بكل ما تستحقينه من جمال وهدوء وفرح.
+          </p>
+
+          <p class="finale__secondary">
+            خليكي دايمًا بنفس روحكِ الحلوة —<br />
+            العالم أجمل بيكِ.
+          </p>
+
+          <div class="finale__divider" aria-hidden="true">
+            <span></span>
+            <span class="finale__divider-heart">❤️</span>
+            <span></span>
+          </div>
+
+          <!-- EDIT: sign-off -->
+          <p class="finale__from">منّي ليكِ</p>
+
+          <!-- أزرار صغيرة: مشاركة + نسخ الرابط -->
+          <div class="finale__actions">
+            <button type="button" class="ghost-btn" id="shareBtn">شاركي الصفحة ✨</button>
+            <span class="toast" id="toast" role="status" aria-live="polite"></span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
 
   <!-- FOOTER -->
   <footer class="site-footer">
     <!-- EDIT: footer -->
-    <p>Made with ❤️ for <span class="footer-name">Ganna Emad</span></p>
+    <p>Made with <span class="footer-heart" aria-hidden="true">❤️</span> for <span class="footer-name">Ganna Emad</span></p>
   </footer>
 
-  <script src="script.js"></script>
+  <!-- زر العودة للأعلى -->
+  <button type="button" class="to-top" id="toTop" aria-label="العودة إلى الأعلى" hidden>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 19V5M5 12l7-7 7 7" />
+    </svg>
+  </button>
+
+  <script src="script.js" defer></script>
 </body>
 </html>
